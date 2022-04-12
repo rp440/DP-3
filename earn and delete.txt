@@ -1,0 +1,35 @@
+class Solution {
+    public int deleteAndEarn(int[] nums) {
+        if(nums ==  null || nums.length == 0) return 0;
+        
+        int max = 0;
+        for (int num:nums){
+            max = Math.max(num, max);
+        }
+        
+        int dp[] = new int[max+1];
+        
+        for(int num: nums){
+            dp[num] += num;
+        }
+//         for(int num: dp){
+//             System.out.println(dp[num]);
+
+//         } 
+        
+        int skip = 0;
+        int take = dp[0];
+        
+        for(int i = 1; i <= max + 1; i++){
+            int temp = skip;
+            skip = Math.max(skip, take);
+            take = dp[i-1] + temp;
+        }
+        return Math.max(take,skip);
+    }
+
+}
+
+Time: O(max(No of elements, max_element))
+Space: O(max_element)
+Difficulty: Loop Innitialization
